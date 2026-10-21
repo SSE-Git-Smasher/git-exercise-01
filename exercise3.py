@@ -26,18 +26,48 @@ class Rectangle:
         return self.corner(3)
 
     # def contains(self, point: Point2D, tolerance: float = 0.0) -> bool: # Task B
+
+from exercise1 import Vector
+from exercise2 import Point2D
+
+
+def is_in_interval(value: float, start: float, length: float) -> bool:
+    return start <= value <= start + length
+
+
+class Rectangle:
+    def __init__(self, lower_left: Point2D, dx: float, dy: float) -> None:
+        self._lower_left = lower_left
+        self._dx = dx
+        self._dy = dy
+
+    def corner(self, i: int) -> Point2D:
+        assert i < 4
+        result = Point2D(self._lower_left.x, self._lower_left.y)
+        result += Vector([
+            self._dx if self._is_idx_on_right_edge(i) else 0.0,
+            self._dy if self._is_idx_on_upper_edge(i) else 0.0
+        ])
+        return result
+
+    @property
+    def lower_left(self) -> Point2D:
+        return self._lower_left
+
+    @property
+    def upper_right(self) -> Point2D:
+        return self.corner(3)
+
     def contains(self, point: Point2D) -> bool:
-        # Task A: remove duplication by defining a function
-        #         that checks if a value is within an interval
-        #         and reuse that here.
-        ll_px = point.x - self._lower_left.x
-        ll_py = point.y - self._lower_left.y
-        return ll_px >= 0 and ll_px <= self._dx \
-            and ll_py >= 0 and ll_py <= self._dy
+        return is_in_interval(
+            point.x, self._lower_left.x, self._dx
+        ) and is_in_interval(
+            point.y, self._lower_left.y, self._dy
+        )
 
     def _is_idx_on_upper_edge(self, i: int) -> bool:
         return i in [2, 3]
-    
+
     def _is_idx_on_right_edge(self, i: int) -> bool:
         return i in [1, 3]
 
