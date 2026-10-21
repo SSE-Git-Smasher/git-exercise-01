@@ -42,7 +42,7 @@ class Rectangle:
         self._dy = dy
 
     def corner(self, i: int) -> Point2D:
-        assert i < 4
+        assert 0 <= i < 4
         result = Point2D(self._lower_left.x, self._lower_left.y)
         result += Vector([
             self._dx if self._is_idx_on_right_edge(i) else 0.0,
@@ -64,6 +64,21 @@ class Rectangle:
         ) and is_in_interval(
             point.y, self._lower_left.y, self._dy
         )
+    def contains(self, point: Point2D, tolerance: float = 0.0) -> bool:
+        ll_px = point.x - self._lower_left.x
+        ll_py = point.y - self._lower_left.y
+        return (
+            ll_px >= -tolerance
+            and ll_px <= self._dx + tolerance
+            and ll_py >= -tolerance
+            and ll_py <= self._dy + tolerance
+        )
+
+    def _is_idx_on_upper_edge(self, i: int) -> bool:
+        return i in [2, 3]
+    
+    def _is_idx_on_right_edge(self, i: int) -> bool:
+        return i in [1, 3]
 
     # def is_in_interval(...) -> bool: # Task A
 
