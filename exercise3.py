@@ -65,12 +65,6 @@ class Rectangle:
             point.y, self._lower_left.y, self._dy
         )
 
-    def _is_idx_on_upper_edge(self, i: int) -> bool:
-        return i in [2, 3]
-
-    def _is_idx_on_right_edge(self, i: int) -> bool:
-        return i in [1, 3]
-
     # def is_in_interval(...) -> bool: # Task A
 
 
